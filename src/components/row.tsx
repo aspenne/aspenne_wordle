@@ -28,13 +28,15 @@ export default function Rows(props: RowsProps) {
     return (
         <div className="flex flex-col gap-6">
             {Array.from({length: numberOfColumns}).map((i, row) => (
-                <div key={row} className="flex flex-row gap-4" id={`row-${row.toString()}`}>
+                <div key={row} className="flex flex-row gap-0.5 sm:gap-4" id={`row-${row.toString()}`}>
                     {Array.from({length: numberOfRows}).map((_, column) => {
                         const letter = props.words[row]?.[column]?.toLocaleUpperCase() ?? "";
                         return (
                             <div
                                 className={`
                                     mx-2 p-6 
+                                    w-4 h-4
+                                    flex items-center justify-center
                                     border-2 rounded-lg 
                                     text-white font-bold text-xl 
                                     bg-gradient-to-br from-gray-500 to-gray-400

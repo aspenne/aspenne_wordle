@@ -1,4 +1,4 @@
-export const FIRST_LETTERS: string[] = [
+export const LETTERS: string[] = [
     "A",
     "Z",
     "E",
@@ -9,9 +9,6 @@ export const FIRST_LETTERS: string[] = [
     "I",
     "O",
     "P",
-];
-
-export const SECOND_LETTERS: string[] = [
     "Q",
     "S",
     "D",
@@ -22,9 +19,6 @@ export const SECOND_LETTERS: string[] = [
     "K",
     "L",
     "M",
-];
-
-export const THIRD_LETTERS: string[] = [
     "W",
     "X",
     "C",
