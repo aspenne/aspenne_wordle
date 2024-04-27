@@ -14,12 +14,13 @@ export default function App() {
     const [nearlyCorrectLetters, setNearlyCorrectLetters] = useState<string[]>([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
 
     const handleKeyDown = (event: KeyboardEvent) => {
-        setErrorMessage(""); // Clear any previous error messages
+        setErrorMessage("");
         if (event.key === "Enter") {
             if (actualWord.length === 5) {
-                setIsSubmitted(true); // Marquer comme soumis
+                setIsSubmitted(true);
                 checkWord();
             } else {
                 setErrorMessage("Word must be 5 characters long.");
@@ -36,6 +37,10 @@ export default function App() {
         }
     };
 
+    const handleLetterClick = (letter: string) => {
+        handleKeyDown({key: letter} as KeyboardEvent);
+    }
+
     const checkWord = () => {
         setWords((prev) => {
             const newWords = [...prev];
@@ -44,19 +49,19 @@ export default function App() {
         });
 
         setLettersUsed((prev) => {
-            const uniqueLetters = new Set([...prev, ...actualWord.split("")]);
+            const uniqueLetters = new Set([...prev, ...actualWord.toLowerCase().split("")]);
             return Array.from(uniqueLetters);
         });
 
-        const correct: string[] = [];
-        const nearly: string[] = [];
+        const correct: string[] = correctLetters ||  [];
+        const nearly: string[] = nearlyCorrectLetters || [];
 
-        actualWord.split("").forEach((letter, index) => {
-            if (wordToGuess.includes(letter)) {
-                if (wordToGuess[index] === letter) {
-                    correct.push(letter);
+        actualWord.split("").forEach((letter:string, index) => {
+            if (wordToGuess.includes(letter.toLowerCase())) {
+                if (wordToGuess[index] === letter.toLowerCase()) {
+                    correct.push(letter.toLowerCase());
                 } else {
-                    nearly.push(letter);
+                    nearly.push(letter.toLowerCase());
                 }
             }
         });
@@ -64,8 +69,11 @@ export default function App() {
         setCorrectLetters(correct);
         setNearlyCorrectLetters(nearly);
 
-        if (actualWord === wordToGuess) {
+        console.log(wordToGuess)
+
+        if (actualWord.toLowerCase() === wordToGuess) {
             alert(`You won! It took you ${tries + 1} tries.`);
+            setSuccessMessage(`You won ! It took you ${tries + 1} tries.`);
         }
 
         setTries((prev) => prev + 1);
@@ -98,7 +106,11 @@ export default function App() {
             <h1 className="text-4xl font-bold text-center">Aspenne wordle game</h1>
 
             {errorMessage &&
-                <p className="bg-red-500 p-4 border-2 text-white transition ease-in-out" >{errorMessage}</p>
+                <p className="bg-red-500 p-4 border-2 text-white" >{errorMessage}</p>
+            }
+
+            {successMessage &&
+                <p className="bg-green-500 p-4 border-2 text-white" >{successMessage}</p>
             }
 
             <Rows
@@ -112,6 +124,7 @@ export default function App() {
                 lettersUsed={lettersUsed}
                 nearlyCorrectLetters={nearlyCorrectLetters}
                 correctLetters={correctLetters}
+                onLetterClick={handleLetterClick}
             />
 
         </div>

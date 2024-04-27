@@ -4,6 +4,7 @@ interface KeyboardProps {
     lettersUsed: string[];
     correctLetters: string[];
     nearlyCorrectLetters: string[];
+    onLetterClick: (letter: string) => void;
 }
 
 export default function Rows(props: KeyboardProps) {
@@ -24,8 +25,13 @@ export default function Rows(props: KeyboardProps) {
                 mt-0.5 max-w-xl">
                 {letters.map((letter, index) => (
                     <div
-                        className={`p-3 border-2 rounded-lg text-white font-bold text-xl ${getBackgroundColor(letter)}`}
+                        className={`p-3 border-2 rounded-lg text-white font-bold cursor-pointer text-xl ${getBackgroundColor(letter)}`}
                         key={index}
+                        onClick={() => {
+                            if (letter) {
+                                props.onLetterClick(letter);
+                            }
+                        }}
                     >
                         {letter}
                     </div>
@@ -35,8 +41,28 @@ export default function Rows(props: KeyboardProps) {
     }
 
     return (
-            <div className="flex flex-col gap-4 justify-center items-center text-white">
-                <LetterRow letters={LETTERS} lettersUsed={props.lettersUsed} />
+        <div className="flex flex-col gap-4 justify-center items-center text-white">
+            <LetterRow letters={LETTERS} lettersUsed={props.lettersUsed}/>
+            <div  className={`flex flex-row gap-2 flex-wrap justify-center items-center
+                  mt-0.5 max-w-xl`}>
+                <div
+                    className="p-3 border-2 rounded-lg text-white font-bold cursor-pointer text-xl"
+                    onClick={() => {
+                        props.onLetterClick("Enter"); // Action pour Enter
+                    }}
+                >
+                    ⏎
+                </div>
+                <div
+                    className="p-3 border-2 rounded-lg text-white font-bold cursor-pointer text-xl"
+                    onClick={() => {
+                        props.onLetterClick("Backspace"); // Action pour Backspace
+                    }}
+                >
+                    ⌫
+                </div>
             </div>
+        </div>
+
     );
 }

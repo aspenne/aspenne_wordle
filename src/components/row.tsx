@@ -33,7 +33,7 @@ export default function Rows(props: RowsProps) {
                         const letter = props.words[row]?.[column]?.toLocaleUpperCase() ?? "";
                         return (
                             <div
-                                className={`
+                                className={`                                                                     
                                     mx-2 p-6 
                                     w-4 h-4
                                     flex items-center justify-center
